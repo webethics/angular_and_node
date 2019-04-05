@@ -1,0 +1,54 @@
+<!--------------------------- MENU ----------------------------------->
+      <header> 
+      <div class="header-cont">	  
+	 
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4">
+          <div class="logo my-0 mr-md-auto font-weight-normal"> 
+		     <a routerLink="/"><img class="img-fluid" alt="MoveLaunch" src="../../../assets/images/logo.png"></a></div>
+			 
+            <nav class="my-2 my-md-0 mr-md-3 navbar-light cta-btn">
+				
+					<a *ngIf ="!isLoggedIn()" class="p-2 text-dark" routerLink="/register" (click) = "setuserpartner('partner')"> <i class="fas fa-user-circle"></i> Join As A Partner </a>
+					<a *ngIf ="!isLoggedIn()" routerLink="/login"  class="p-2 text-dark" routerLinkActive="active"><i class="fas fa-sign-in-alt"></i> Login</a> 
+					<a *ngIf ="!isLoggedIn()" routerLink="/register"  class="p-2 text-dark" routerLinkActive="active" (click) = "setuserpartner('user')" > <i class="fas fa-key"></i> Sign Up</a> 
+					<a *ngIf ="isLoggedIn()" routerLink="/jobs"  class="p-2 text-dark" routerLinkActive="active" > My Jobs</a>
+					<a *ngIf ="isLoggedIn()" routerLink="/create-job"  class="p-2 text-dark" routerLinkActive="active"> Create Job</a>
+					
+					<div *ngIf ="isLoggedIn()"  class="dropdown">
+						<a routerLinkActive="active" class="dropbtn">{{userdetail.firstname}} {{userdetail.lastname}} <i class="fa fa-caret-down"></i></a>
+						<div class="dropdown-content">
+							<a *ngIf ="isLoggedIn()" routerLink="/profile"  class="p-2 text-dark" routerLinkActive="active" > My Account</a> 
+							<a *ngIf ="isLoggedIn()" routerLink="/changepassword"  class="p-2 text-dark" routerLinkActive="active" > Change Password</a> 
+							<a *ngIf ="isLoggedIn()" href="javascript:void(0)" (click) = "logout()" routerLinkActive="active" class="p-2 text-dark" > Logout</a> 
+						</div>
+					  </div> 
+					
+			</nav>
+      </div>
+	  </div>
+	 </header>  
+ 
+<!--------------------------- END MENU  ------------------------------>
+
+
+<!--------------------------- BODY ----------------------------------->
+	
+      <router-outlet></router-outlet>
+
+
+<!-------------------------- END BODY ---------------------------------->
+
+<!--------------------------- FOOTER ----------------------------------->
+
+
+	<footer class="ft">
+		<div class="bottom-line">
+			<div class="container">
+				<span>© 2019 MoveLaunch All rights reserved.</span>
+			</div>
+		</div>
+	</footer> 
+
+
+<!--------------------------- END FOOTER ----------------------------------->
+

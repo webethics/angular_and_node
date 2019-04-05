@@ -1,0 +1,276 @@
+<div class="form-wrapper signup-form ">
+	<div class="form-inner">
+		<div class="form-header">Sign up</div> 
+               
+		<div class="signup-partner">
+			<img class="logo-icon" src="../../../assets/images/logo-icon.png">
+			<h1>Sign up <span>here</span></h1>
+			<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" >
+				<li class="nav-item">
+					<a class="nav-link" [ngClass]="(setusertype=='user')?'active':''" id="customer" data-toggle="pill" href="#pill-customer" role="tab" aria-controls="pills-home" aria-selected="true">As a Customer</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" [ngClass]="(setusertype=='partner')?'active':''" id="partner" data-toggle="pill" href="#pill-partner" role="tab" aria-controls="pills-profile" aria-selected="false">As a Partner</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-sm-12">
+			<flash-messages></flash-messages>
+		</div>
+		<div class="tab-content second_form" id="pills-tabContent" style="border:none" >
+			
+		  <div class="tab-pane fade show" [ngClass]="(setusertype=='user')?'active':''" id="pill-customer" role="tabpanel" aria-labelledby="pills-home-tab">
+				
+				<form [formGroup]="angForm" class="form-main" >
+					
+					<div id="step1" class="col-sm-12 first_form" *ngIf="first_show">
+							
+						 <div class="form-group col-md-12">
+							<input type="text" class="form-control" formControlName="email" #email placeholder="Email address" (keyup)="emailAlready(email.value)" [ngClass]="{ 'is-invalid': first_submitted && f.email.errors }" />
+							<div *ngIf="first_submitted && f.email.errors" class="invalid-feedback text-left">
+								<div *ngIf="f.email.errors.required">Email is required</div>
+							</div>
+							<div *ngIf="angForm.controls['email'].invalid && (angForm.controls['email'].dirty || angForm.controls['email'].touched)" class="invalid-feedback text-left">
+								<div *ngIf="angForm.controls['email'].errors.required">
+									Email is required.
+								</div>
+								<div *ngIf="angForm.controls['email'].errors.pattern">
+									Please enter Valid Email .
+								</div>
+							</div>
+							
+						</div>
+						
+						
+						 <div class="form-group col-md-12">
+							<input type="password" class="form-control" formControlName="password"  [ngClass]="{ 'is-invalid': first_submitted && f.password.errors }"  placeholder="Password" #password />
+							
+							<div *ngIf="first_submitted && f.password.errors" class="invalid-feedback text-left">
+								<div *ngIf="f.password.errors.required">Password is required</div>
+							</div>
+				
+							<div *ngIf="angForm.controls['password'].invalid && (angForm.controls['password'].dirty || angForm.controls['password'].touched)" class="invalid-feedback text-left">
+							
+								<div *ngIf="angForm.controls['password'].errors.required">
+									Password is required.
+								</div>
+								<div *ngIf="angForm.controls['password'].errors.minlength">
+									Name must be at least 5 characters long.
+								</div> 
+								<div *ngIf="angForm.controls['password'].errors.maxlength">
+									Name can be max 10 characters long.
+								</div> 
+							</div>
+						</div>
+						
+					
+						<button (click)="check()" class="btn btn-lg btn-primary" type="submit">Next</button>
+					</div>
+					<div id="step2" class="col-sm-12 second_form" *ngIf="show">
+				
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control" id="inputEmail4" placeholder="First Name*" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+							</div>
+							<div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+								<div *ngIf="f.firstName.errors.required">First Name is required</div>
+							</div>
+				
+							<div class="form-group col-md-6">
+							  <input type="text" class="form-control" id="inputPassword4" placeholder="Last name*" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+							</div>
+						</div> 
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<select  id="inputState"  class="form-control getstate" formControlName="state" (change)= "getCounties($event)" [ngClass]="{ 'is-invalid': submitted && f.state.errors }" >
+									<option value="">Select State</option>
+									<option *ngFor="let state of states" title="{{ state.abbv }}" value="{{ state.abbv }}">
+										{{ state.name }}
+									</option>
+								</select>
+						
+							</div>
+							<div class="form-group col-md-6">
+								<select  id="inputCounty"  class="form-control getstate" formControlName="county" (change)= "getCities($event)" [ngClass]="{ 'is-invalid': submitted && f.county.errors }">
+									<option value="">Select County</option>
+									<option *ngFor="let county of counties" title="{{ county }}" value="{{ county }}">
+									  {{ county | titlecase }}
+									</option>
+								</select>
+						
+							</div>
+						</div>  
+			 
+						<div class="form-row">
+							<div class="form-group col-md-12">
+								<select  id="inputCity"  class="form-control getstate" formControlName="city" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+									<option value="">Select City</option>
+									<option *ngFor="let city of cities" title="{{ city }}" value="{{ city }}">
+										{{ city | titlecase }}
+									</option>
+								</select>
+							
+							</div>
+						</div> 
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control" id="inputEmail5" placeholder="Zip*"  formControlName="zip" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }">
+							</div>
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control" id="inputPassword4" placeholder="Phone*"  formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+							</div>
+						</div> 
+						<div class="form-row"> 
+							<div class="form-group col">
+								<textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Address"  formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
+							</div> 
+						</div> 
+			
+						<div class="form-row"> 
+							<div class="form-group col text-center">
+								<button class="btn btn-lg btn-primary" type="submit" (click)="onSubmit()"  (ngSubmit)="onSubmit()">Submit</button> 
+							</div> 
+						</div> 
+					</div>
+				</form>  
+			 
+			</div>
+		  
+			<div class="tab-pane fade "  [ngClass]="(setusertype=='partner')?'active show':''" id="pill-partner" role="tabpanel" aria-labelledby="pills-profile-tab">
+				<form [formGroup]="angPartnerForm" class="form-main" >
+					
+					<div id="step1" class="col-sm-12 first_form" *ngIf="first_show_partner">
+							
+						<div class="form-group col-md-12">
+							<input type="text" class="form-control" formControlName="email" #email placeholder="Email address" (keyup)="emailAlready(email.value)" [ngClass]="{ 'is-invalid': third_submitted && f1.email.errors }" />
+							<div *ngIf="third_submitted && f1.email.errors" class="invalid-feedback text-left">
+								<div *ngIf="f1.email.errors.required">Email is required</div>
+							</div>
+							<div *ngIf="angPartnerForm.controls['email'].invalid && (angPartnerForm.controls['email'].dirty || angPartnerForm.controls['email'].touched)" class="invalid-feedback text-left">
+								<div *ngIf="angPartnerForm.controls['email'].errors.required">
+									Email is required.
+								</div>
+								<div *ngIf="angPartnerForm.controls['email'].errors.pattern">
+									Please enter Valid Email .
+								</div>
+							</div>
+							
+						</div>
+						
+						
+						 <div class="form-group col-md-12">
+							<input type="password" class="form-control" formControlName="password"  [ngClass]="{ 'is-invalid': third_submitted && f.password.errors }"  placeholder="Password" #password />
+							
+							<div *ngIf="third_submitted && f1.password.errors" class="invalid-feedback text-left">
+								<div *ngIf="f1.password.errors.required">Password is required</div>
+							</div>
+				
+							<div *ngIf="angPartnerForm.controls['password'].invalid && (angPartnerForm.controls['password'].dirty || angPartnerForm.controls['password'].touched)" class="invalid-feedback text-left">
+							
+								<div *ngIf="angPartnerForm.controls['password'].errors.required">
+									Password is required.
+								</div>
+								<div *ngIf="angPartnerForm.controls['password'].errors.minlength">
+									Name must be at least 5 characters long.
+								</div> 
+								<div *ngIf="angPartnerForm.controls['password'].errors.maxlength">
+									Name can be max 10 characters long.
+								</div> 
+							</div>
+						</div>
+						
+						<button (click)="checkpartner()" class="btn btn-lg btn-primary" type="submit">Next</button>
+					</div>
+					<div id="step2" class="col-sm-12 second_form" *ngIf="showpartner">
+				
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control" id="inputEmail4" placeholder="First Name*" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted4 && f1.firstName.errors }">
+							</div>
+							<div *ngIf="submitted4 && f1.firstName.errors" class="invalid-feedback">
+								<div *ngIf="f1.firstName.errors.required">First Name is required</div>
+							</div>
+				
+							<div class="form-group col-md-6">
+							  <input type="text" class="form-control" id="inputPassword4" placeholder="Last name*" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted4 && f1.lastName.errors }">
+							</div>
+						</div> 
+						
+						<div class="form-row">
+							<div class="form-group col-md-12">
+								<input type="text" class="form-control" id="inputEmail41" placeholder="Company Name*" formControlName="companyName" [ngClass]="{ 'is-invalid': submitted4 && f1.companyName.errors }">
+							</div>
+							<div *ngIf="submitted4 && f1.companyName.errors" class="invalid-feedback">
+								<div *ngIf="f1.companyName.errors.required">Company Name is required</div>
+							</div>
+						</div> 
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<select  id="inputState"  class="form-control getstate" formControlName="state" (change)= "getCounties($event)" [ngClass]="{ 'is-invalid': submitted4 && f1.state.errors }" >
+									<option value="">Select State</option>
+									<option *ngFor="let state of states" title="{{ state.abbv }}" value="{{ state.abbv }}">
+										{{ state.name }}
+									</option>
+								</select>
+						
+							</div>
+							<div class="form-group col-md-6">
+								<select  id="inputCounty" multiple class="form-control getstate" formControlName="county" [ngClass]="{ 'is-invalid': submitted4 && f1.county.errors }">
+									<option value="">Select Counties</option>
+									<option *ngFor="let county of counties" title="{{ county }}" value="{{ county }}">
+									  {{ county | titlecase }}
+									</option>
+								</select>
+						
+							</div>
+						</div>  
+			 
+						<!-- <div class="form-row">
+							<div class="form-group col-md-12">
+								<select  id="inputCity"  class="form-control getstate" formControlName="city" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+									<option value="">Select City</option>
+									<option *ngFor="let city of cities" title="{{ city }}" value="{{ city }}">
+										{{ city | titlecase }}
+									</option>
+								</select>
+							
+							</div>
+						</div>  -->
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								What services do you provide ?
+							</div>
+							<div class="form-group col-md-6">
+								<input type="checkbox" id="services_checkbox" formControlName="services" [ngClass]="{ 'is-invalid': submitted4 && f1.services.errors }"> Moving
+								<input type="checkbox" id="services_checkbox" formControlName="services" [ngClass]="{ 'is-invalid': submitted4 && f1.services.errors }"> Packing
+								<input type="checkbox" id="services_checkbox" formControlName="services" [ngClass]="{ 'is-invalid': submitted4 && f1.services.errors }"> Storage
+								<input type="checkbox" id="services_checkbox" formControlName="services" [ngClass]="{ 'is-invalid': submitted4 && f1.services.errors }"> Loading
+								<input type="checkbox" id="services_checkbox" formControlName="services" [ngClass]="{ 'is-invalid': submitted4 && f1.services.errors }"> Unloading
+							</div>
+						</div> 
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control" id="inputEmail5" placeholder="Zip*"  formControlName="zip" [ngClass]="{ 'is-invalid': submitted4 && f1.zip.errors }">
+							</div>
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control" id="inputPassword4" placeholder="Phone*"  formControlName="phone" [ngClass]="{ 'is-invalid': submitted4 && f1.phone.errors }">
+							</div>
+						</div> 
+						<div class="form-row"> 
+							<div class="form-group col">
+								<textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Address"  formControlName="address" [ngClass]="{ 'is-invalid': submitted4 && f1.address.errors }"></textarea>
+							</div> 
+						</div> 
+			
+						<div class="form-row"> 
+							<div class="form-group col text-center">
+								<button class="btn btn-lg btn-primary" type="submit" (click)="onSubmit()"  (ngSubmit)="onSubmitPartner()">Submit</button> 
+							</div> 
+						</div> 
+					</div>
+				</form>
+			</div>
+		  
+		</div> 
+	</div>
+ </div>
